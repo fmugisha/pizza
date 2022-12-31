@@ -37,12 +37,23 @@
   	if(array_filter($errors)) {
   		$info['errors'] = 'There is some error in a form';
   	} else {
-
+  		$target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["imageUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
   		$email = mysqli_real_escape_string($db_connect, $_POST['email']);
   		$title = mysqli_real_escape_string($db_connect, $_POST['title']);
   		$ingredients = mysqli_real_escape_string($db_connect, $_POST['ingredients']);
 
-  		$sql = "INSERT INTO pizzas(email, title, ingredients) VALUES('$email', '$title', '$ingredients')";
+  		if (move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $target_file)) {
+  			echo "The file ". basename( $_FILES["imageUpload"]["name"]). " has been uploaded.";
+  		} else {
+  			echo "Sorry, there was an error uploading your file.";
+  		}
+
+        $image=basename( $_FILES["imageUpload"]["name"],".jpg");
+
+  		$sql = "INSERT INTO pizzas(image, email, title, ingredients) VALUES('$image', '$email', '$title', '$ingredients')";
 
   		if(mysqli_query($db_connect, $sql)) {
   			header('Location: index.php');
@@ -61,6 +72,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Add | BabuPizza</title>
 	<link rel="icon" href="images/logo.png" type="image/png">
+	<style>
+		.image-upload {
+			width: 100%;
+			margin: 1rem 0;
+		}
+	</style>
 </head>
 <body>
 
@@ -68,7 +85,7 @@
 
 	<section class="container grey-text">
 		<h4 class="center">Add Pizza</h4>
-		<form class="white" action="add.php" method="POST">
+		<form class="white" action="add.php" method="POST" enctype="multipart/form-data">
 			<label>Your Email:</label>
 			<input type="text" name="email" value="<?php echo htmlspecialchars($email); ?>"/>
 			<div class="red-text">
@@ -90,6 +107,8 @@
 				  echo $errors['ingredients'];
 				?>
 			</div>
+			<label>Image:</label>
+			<input type="file" name="imageUpload" class="image-upload" value=""/>
 			<div class="center">
 				<input type="submit" name="submit" value="Submit" class="btn brand z-depth-0" />
 			</div>

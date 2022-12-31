@@ -2,7 +2,7 @@
 
   include('config/db_connect.php');
 
-  $sql = 'SELECT title, ingredients, id FROM pizzas ORDER BY created_at';
+  $sql = 'SELECT image, title, ingredients, id FROM pizzas ORDER BY created_at';
 
   $result = mysqli_query($db_connect, $sql);
 
@@ -30,7 +30,7 @@
 
 				<div class="col s6 md3">
 					<div class="card z-depth-0">
-						<img src="images/pizza.png" class="pizza">
+						<img src="uploads/<?php echo $pizza['image'].'jpg'; ?>" class="pizza" height="75" width="75">
 						<div class="card-content center">
 							<h6 class="tit"><?php echo htmlspecialchars($pizza['title']); ?></h6>
 							<ul>

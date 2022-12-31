@@ -20,7 +20,7 @@
   	$title = $_POST['title'];
   	$ingredients = $_POST['ingredients'];
 
-  	$sql = "UPDATE pizzas SET title='$title',ingredients='$ingredients',email='$email' WHERE id=$id";
+  	$sql = "UPDATE pizzas SET title ='$title', ingredients ='$ingredients', email ='$email' WHERE id=$id";
 
   	$result = mysqli_query($db_connect, $sql);
 
