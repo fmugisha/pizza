@@ -28,9 +28,9 @@
 		<div class="row">
 			<?php foreach($pizzas as $pizza): ?>
 
-				<div class="col s6 md3">
+				<div class="col s4 md3">
 					<div class="card z-depth-0">
-						<img src="uploads/<?php echo $pizza['image'].'jpg'; ?>" class="pizza" height="75" width="75">
+					    <?php echo '<img src="upload/'.$pizza['image'].'" class="pizza">'?>
 						<div class="card-content center">
 							<h6 class="tit"><?php echo htmlspecialchars($pizza['title']); ?></h6>
 							<ul>

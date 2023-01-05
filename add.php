@@ -37,29 +37,19 @@
   	if(array_filter($errors)) {
   		$info['errors'] = 'There is some error in a form';
   	} else {
-  		$target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["imageUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+  		$image = $_FILES['image']['name'];
   		$email = mysqli_real_escape_string($db_connect, $_POST['email']);
   		$title = mysqli_real_escape_string($db_connect, $_POST['title']);
   		$ingredients = mysqli_real_escape_string($db_connect, $_POST['ingredients']);
 
-  		if (move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $target_file)) {
-  			echo "The file ". basename( $_FILES["imageUpload"]["name"]). " has been uploaded.";
-  		} else {
-  			echo "Sorry, there was an error uploading your file.";
-  		}
-
-        $image=basename( $_FILES["imageUpload"]["name"],".jpg");
-
   		$sql = "INSERT INTO pizzas(image, email, title, ingredients) VALUES('$image', '$email', '$title', '$ingredients')";
 
   		if(mysqli_query($db_connect, $sql)) {
+  			move_uploaded_file($_FILES['image']['tmp_name'], "upload/".$_FILES['image']['name']);
   			header('Location: index.php');
   		} else {
   			echo 'query error: ' . mysqli_error($db_connect);
-  		}
+  		}	
   	}
   }
 
@@ -108,7 +98,7 @@
 				?>
 			</div>
 			<label>Image:</label>
-			<input type="file" name="imageUpload" class="image-upload" value=""/>
+			<input type="file" name="image" class="image-upload" value=""/>
 			<div class="center">
 				<input type="submit" name="submit" value="Submit" class="btn brand z-depth-0" />
 			</div>

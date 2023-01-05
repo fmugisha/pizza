@@ -9,7 +9,7 @@
 
   	$data = mysqli_query($db_connect, "SELECT * FROM user WHERE id = $id");
 
-  	$user = mysqli_fetch_assoc($data);
+  	$row = mysqli_fetch_assoc($data);
 
   } else {
   	header('Location: login.php');
@@ -54,6 +54,7 @@
 			display: block;
 			position: relative;
 			top: -30px;
+			border-radius: 50%;
 		}
 		.tit {
 			font-weight: 600;
@@ -85,7 +86,7 @@
 		<div class="container">
 			<a href="index.php" class="brand-logo brand-text">BabuPizza</a>
 			<ul id="nav-mobile" class="center-pro hide-on-small-and-down">
-			  <li class="grey-text">Welcome, <?php echo $user['firstname']; ?></li>
+			  <li class="grey-text">Welcome, <?php echo $row['firstname']; ?></li>
 				<!--img src="images/bro.jpg" class="img-pro"-->
 			</ul>
 			<ul id="nav-mobile" class="right hide-on-small-and-down">
